@@ -1,0 +1,67 @@
+(bool: true false)
+
+tech 文件: 
+
+n_dx
+
+每个 dx
+name (string)
+weight
+
+MAX_FLY_WEIGHT int
+MAX_ABI int
+ntech
+
+对每个 tech:
+name (string)
+class 
+is_long (bool)
+n_rel_range
+rel_range: x1 y1 x2 y2 ...
+aoe_range
+aoe_ratio
+aoe_self (bool)
+duration
+dx (bool array)
+value (int)
+
+AI_MAX_MOVE_DIST int
+AI_MAX_MOVE_SCORE int
+
+AI_MAX_BUF_VALUE int
+AI_MAX_BUF_SCORE int
+
+AI_MAX_DEF_DIST int
+AI_MAX_DEF_SCORE int
+
+AI_MAX_TECH_DIST int
+AI_MAX_TECH_SCORE int
+
+AI_MAX_TECH_BUF_VMD int
+AI_MAX_TECH_FLY_VMD int
+AI_MAX_TECH_DL_DUR int
+
+Map 文件:
+
+nx ny
+
+dx map (nx * ny)
+
+n_people
+
+对每个人:
+
+name string
+opt int
+abi int
+def int
+hp int
+speed int
+x y int
+ntech
+tech []int
+
+对每个人的 AI 参数:
+
+fact_att, fact_def, fact_move (-1 -1 -1 for opt 0)
+ai_goal (X Y) (-1 -1 for no moving goal)
