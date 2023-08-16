@@ -212,8 +212,8 @@ ftbt 是一款用 go 语言开发的回合制战旗游戏引擎, 是 20 世纪 9
 ftbt\_nc 为双人游戏, 即两方均由人工操作. 注意 AI 固定使用操作方 $1$.
 其运行方法为
 \begin{lstlisting}[language=bash]
-ftbt_nc/ftbt_nc 规则文件 关卡文件
-ftbt_nc_ai/ftbt_nc_ai 规则文件 关卡文件
+ftbt_nc/ftbt_nc 规则文件 关卡文件 关卡介绍文件
+ftbt_nc_ai/ftbt_nc_ai 规则文件 关卡文件 关卡介绍文件
 \end{lstlisting}
 其中, 规则文件和关卡文件的详细描述可参见第 \ref{s_conf} 节. 前端的操作说明可参见第 \ref{s_nc} 节.
 
@@ -227,9 +227,10 @@ ftbt_nc_ai/ftbt_nc_ai 规则文件 关卡文件
       \item 用户需按 \lcode{UISelect} 接口构造两个结构, 可记为 \lcode{ui_select[2]}. 分别用于获取两个操作方的用户操作.
       \item 用户需调用函数
             \begin{lstlisting}
-func Init (ui_note UINote, ui_select [2]UISelect, ftech, fmap io.Reader) bool 
+func Init (ui_note UINote, ui_select [2]UISelect, ftech, fmap io.Reader, fintro_name string) bool 
             \end{lstlisting}
-            完成初始化引擎. 其中 ftech, fmap 分别为规则文件和关卡文件的读取接口
+            完成初始化引擎. 其中 ftech, fmap 分别为规则文件和关卡文件的读取接口. \lcode{fintro_name} 为关卡介绍文件的文件名.
+            关卡介绍内容保存在 \lcode{intro string} 变量中.
       \item 如果需要启用 AI, 用户还需要依次调用
             \begin{lstlisting}
 func InitAI ()
@@ -331,7 +332,7 @@ var dx_name []string
 
 \end{lstlisting}
 其中, \lcode{people} 指明占据该网格的人员编号, 无人则取 $-1$. \lcode{dx} 为该网格的地形编号, 
-\lcode{weight} 为与网格关联的移动量消耗值. \lcode{gmap} 维护所有位置的结构. 
+\lcode{weight} 为与网格关联的移动量消耗值. \lcode{gmap} 维护所有位置的结构, 其中位置的顺序按照 (\ref{e_loc}) 中 $l$ 从小到大排列. 
 \lcode{dx_weight} 保存所有地形的移动量消耗值, \lcode{dx_name} 保存所有地形的名称.
 
 当地图上划定了一个选择范围时, 可通过 \lcode{path_last_loc} 属性获得该范围. 
@@ -635,6 +636,8 @@ vmd * AI_MAX_TECH_SCORE / AI_MAX_TECH_DL_VMD
 
 \section{NCurses 前端操作说明}
 \label{s_nc}
+程序运行开始会先显示关卡介绍的内容, 按任意键翻页, 显示完成后游戏开始.
+
 屏幕左上角区域显示地图信息, 向右为 $x$ 正方向, 向下为 $y$ 正方向. 
 每个地图网格显示如图 \ref{f_grid} 所示的信息.
 \begin{figure}

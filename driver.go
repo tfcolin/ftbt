@@ -2,6 +2,7 @@ package ftbt
 
 import (
 	"io"
+      "os"
 )
 
 const (
@@ -13,7 +14,14 @@ const (
 
 var ui UI 
 
-func Init (ui_note UINote, ui_select [2]UISelect, ftech, fmap io.Reader) bool {
+var intro string
+
+func LoadIntro (fin_name string) {
+      buf, _ := os.ReadFile (fin_name)
+      intro = string(buf)
+}
+
+func Init (ui_note UINote, ui_select [2]UISelect, ftech, fmap io.Reader, fintro_name string) bool {
 
 	ui.note = ui_note
 	ui.sel = ui_select
@@ -26,6 +34,7 @@ func Init (ui_note UINote, ui_select [2]UISelect, ftech, fmap io.Reader) bool {
 	if LoadTech (ftech) {
 		return true
 	}
+      LoadIntro (fintro_name)
 	if LoadMap (fmap, ui.note) {
 		return true
 	}

@@ -23,6 +23,8 @@ type NCursesUI struct {
 	w_atech * goncurses.Window
 	w_scroll * goncurses.Window
       w_msg * goncurses.Window
+      p_intro * goncurses.Pad
+      w_intro * goncurses.Window
 
 	w_dx 		* goncurses.Window
 	w_weight 	* goncurses.Window
@@ -187,6 +189,9 @@ func InitNCursesUI () * NCursesUI {
       nui.w_msg, _ = goncurses.NewWindow (6, 42, 26, 122)
 	nui.w_msg_in, _ = goncurses.NewWindow (4, 40, 27, 123)
       nui.w_msg_in.ScrollOk (true)
+      nui.p_intro, _ = goncurses.NewPad (500, 70)
+      nui.p_intro.Window.ScrollOk (true)
+      nui.w_intro, _ = goncurses.NewWindow (28, 72, 2, 25)
 
 	nui.wl_dx, _ = goncurses.NewWindow       (1, 12, 1, 123)
 	nui.w_dx, _ = goncurses.NewWindow 	 (1, 8, 1, 135)
@@ -257,6 +262,7 @@ func InitNCursesUI () * NCursesUI {
       nui.w_atech.Border ('|', '|', '-', '-', '*', '*', '*', '*')
       nui.w_scroll.Border ('|', '|', '-', '-', '*', '*', '*', '*')
       nui.w_msg.Border ('|', '|', '-', '-', '*', '*', '*', '*')
+      nui.w_intro.Border ('|', '|', '-', '-', '*', '*', '*', '*')
 
       nui.w_map.Refresh()
       nui.w_base.Refresh()
@@ -264,6 +270,7 @@ func InitNCursesUI () * NCursesUI {
       nui.w_atech.Refresh()
       nui.w_scroll.Refresh()
       nui.w_msg.Refresh()
+      nui.w_intro.Refresh()
 
       /* write labels */
       nui.wl_dx.Printf ("%-12s", "Ground")
@@ -535,7 +542,19 @@ func (nui * NCursesUI) UpdateCursor (cx, cy int, hp_down int) {
 }
 
 func (nui * NCursesUI) LoadMapDone () {
+      nui.w_all.GetChar ()
       nui.p_map, _ = goncurses.NewPad (MAP_SIZE[1] * 2, MAP_SIZE[0] * 6)
+      nui.p_intro.Printf ("%s", intro)
+      tl, _ := nui.p_intro.CursorYX ()
+      tl ++ 
+      wx, wy := 70, 26
+      bx, by := 26, 3
+      for cl := 0; cl < tl; cl += wy {
+            nui.p_intro.Refresh (cl, 0, by, bx, by + wy - 1, bx + wx - 1)
+            for ;nui.w_all.GetChar () == 0; {}
+      }
+      nui.w_intro.Erase ()
+      nui.w_intro.Refresh ()
 
       nui.sc_win[0] = 20
       nui.sc_win[1] = 15
@@ -583,7 +602,7 @@ func (nui * NCursesUI) DoTech (itech, p_src, p_obj, l_obj int) {
       }
 	msg += ". Press any key to continue"
       nui.ShowMsg (msg)
-	x, y := Loc2XY (people[p_obj].loc)
+	x, y := Loc2XY (l_obj)
 	nui.UpdateCursor (x, y, -1)
 	nui.w_all.GetChar ()
 }

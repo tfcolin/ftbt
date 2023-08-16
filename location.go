@@ -53,8 +53,9 @@ func LoadDX (fin io.Reader) bool {
 }
 
 func LoadMap (fin io.Reader, ui UINote) bool {
+
 	var nx, ny int
-	n, _ := fmt.Fscan (fin, &nx, &ny)
+      n, _ := fmt.Fscan (fin, &nx, &ny)
 	if n != 2 {
 		return true
 	}

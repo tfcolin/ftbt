@@ -308,7 +308,7 @@ func TestFtbtCui (t * testing.T) {
 	}
 	InitTestUI ()
 
-	is_err := Init (test_ui[0], test_uis, ftech, fmap)
+	is_err := Init (test_ui[0], test_uis, ftech, fmap, "m1.intro")
 	if is_err {
 		fmt.Printf ("初始化错误\n")
 		return
@@ -332,7 +332,7 @@ func TestNCCui (t * testing.T) {
 		ui_sel[i] = InitNCursesUISelect (i, ui_note)
 	}
 
-	is_err := Init (ui_note, ui_sel, ftech, fmap)
+	is_err := Init (ui_note, ui_sel, ftech, fmap, "m1.intro")
 	if is_err {
 		fmt.Printf ("初始化错误\n")
 		return

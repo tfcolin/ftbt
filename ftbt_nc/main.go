@@ -3,13 +3,13 @@ package main
 import (
 	"fmt"
 	"os"
-	"tfgolib/ftbt"
+	"gitee.com/tfcolin/ftbt"
 )
 
 func main() {
 
-	if len (os.Args) < 3 {
-		fmt.Printf ("Usage: ftbt_nc rule_file map_file\n")
+	if len (os.Args) < 4 {
+		fmt.Printf ("Usage: ftbt_nc rule_file map_file intro_file\n")
 		return
 	}
 
@@ -28,7 +28,7 @@ func main() {
 		ui_sel[i] = ftbt.InitNCursesUISelect (i, ui_note)
 	}
 
-	is_err := ftbt.Init (ui_note, ui_sel, ftech, fmap)
+	is_err := ftbt.Init (ui_note, ui_sel, ftech, fmap, os.Args[3])
 	if is_err {
 		fmt.Printf ("初始化错误\n")
 		ui_note.End ()
