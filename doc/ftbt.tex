@@ -34,7 +34,7 @@
 \usepackage[all]{xy} % 交换图表
 
 % 参考文献库
-\usepackage[backend=biber, style = caspervector, utf8, sorting = ecnty]{biblatex}
+\usepackage[backend=biber, style = caspervector, utf8]{biblatex}
 % sorting: none 引用顺序 ecnty 英文在先 centy 中文在先
 % 引用 \cite(supercite, parencite) [prenote][postnote]{key}
 % prenote: 标号前置文字; postnote: 标号后置文字; key: 引用标签
@@ -184,7 +184,7 @@
 \section{引言}
 \subsection{游戏基本流程}
 \label{s_intro}
-ftbt 是一款用 go 语言开发的回合制战旗游戏引擎, 是 20 世纪 90 年代颇为流行的游戏模式, 例如天使帝国, 三国英杰传等均属于该类型游戏. 
+ftbt 是一款用 go 语言开发的回合制战棋游戏引擎, 是 20 世纪 90 年代颇为流行的游戏模式, 例如天使帝国, 三国英杰传等均属于该类型游戏. 
 双方控制人物(棋子)在地图(棋盘)上移动并使用技术对对方人物造成伤害. 如果某人物的生命值 (HP) 被减少至零, 则从战斗地图中
 退场 (移出棋盘). 首先将对方全部人物消灭的一方取得胜利. 双方轮流按回合进行游戏. 各方每回合的操作流程如下: 
 \begin{enumerate}
@@ -212,10 +212,11 @@ ftbt 是一款用 go 语言开发的回合制战旗游戏引擎, 是 20 世纪 9
 ftbt\_nc 为双人游戏, 即两方均由人工操作. 注意 AI 固定使用操作方 $1$.
 其运行方法为
 \begin{lstlisting}[language=bash]
-ftbt_nc/ftbt_nc 规则文件 关卡文件 关卡介绍文件
-ftbt_nc_ai/ftbt_nc_ai 规则文件 关卡文件 关卡介绍文件
+ftbt_nc/ftbt_nc 规则文件 关卡文件 [关卡介绍文件]
+ftbt_nc_ai/ftbt_nc_ai 规则文件 关卡文件 [关卡介绍文件]
 \end{lstlisting}
 其中, 规则文件和关卡文件的详细描述可参见第 \ref{s_conf} 节. 前端的操作说明可参见第 \ref{s_nc} 节.
+关卡介绍文件包含关卡介绍的文本内容, 允许不提供.
 
 \subsection{引擎使用}
 游戏引擎的设计模式允许对同样的游戏规则设计不同的用户界面(UI). UI 通过 go 语言的 \lcode{interface} 结构来定义,
@@ -230,7 +231,8 @@ ftbt_nc_ai/ftbt_nc_ai 规则文件 关卡文件 关卡介绍文件
 func Init (ui_note UINote, ui_select [2]UISelect, ftech, fmap io.Reader, fintro_name string) bool 
             \end{lstlisting}
             完成初始化引擎. 其中 ftech, fmap 分别为规则文件和关卡文件的读取接口. \lcode{fintro_name} 为关卡介绍文件的文件名.
-            关卡介绍内容保存在 \lcode{intro string} 变量中.
+            关卡介绍内容保存在 \lcode{intro string} 变量中. 如果 \lcode{len(intro) == 0}, 则采用 "No introduction" 作为
+            关卡介绍内容.
       \item 如果需要启用 AI, 用户还需要依次调用
             \begin{lstlisting}
 func InitAI ()

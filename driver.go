@@ -17,8 +17,12 @@ var ui UI
 var intro string
 
 func LoadIntro (fin_name string) {
-      buf, _ := os.ReadFile (fin_name)
-      intro = string(buf)
+      if len(fin_name) == 0 {
+            intro = "No introduction"
+      } else {
+            buf, _ := os.ReadFile (fin_name)
+            intro = string(buf)
+      }
 }
 
 func Init (ui_note UINote, ui_select [2]UISelect, ftech, fmap io.Reader, fintro_name string) bool {

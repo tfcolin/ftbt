@@ -8,8 +8,8 @@ import (
 
 func main() {
 
-	if len (os.Args) < 4 {
-		fmt.Printf ("Usage: ftbt_ai_nc rule_file map_file intro_file\n")
+	if len (os.Args) < 3 {
+		fmt.Printf ("Usage: ftbt_ai_nc rule_file map_file [intro_file]\n")
 		return 
 	}
 
@@ -27,7 +27,13 @@ func main() {
 	ui_sel[0] = ftbt.InitNCursesUISelect (0, ui_note)
 	ui_sel[1] = ftbt.InitNCursesUIAISelect (1, ui_note)
 
-	is_err := ftbt.Init (ui_note, ui_sel, ftech, fmap, os.Args[3])
+      var is_err bool
+      if len (os.Args) >= 4 {
+            is_err = ftbt.Init (ui_note, ui_sel, ftech, fmap, os.Args[3])
+      } else {
+            is_err = ftbt.Init (ui_note, ui_sel, ftech, fmap, "")
+      }
+
 	if is_err {
 		fmt.Printf ("初始化错误\n")
 		ui_note.End ()
