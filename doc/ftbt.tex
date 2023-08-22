@@ -182,6 +182,34 @@
 \maketitle
 
 \section{引言}
+\subsection{安装说明}
+\begin{itemize}
+      \item 安装引擎
+            \begin{lstlisting}[language=bash]
+git clone https://gitee.com/tfcolin/ftbt
+cd ftbt
+go build .
+            \end{lstlisting}
+
+\item 安装基于 ncurses 的终端 UI 实现的可执行程序.
+            \begin{lstlisting}[language=bash]
+cd ftbt_nc
+go build .
+cd ../ftbt_ai_nc
+go build .
+cd ..
+            \end{lstlisting}
+\end{itemize}
+注意如果在非 linux 平台下安装, 需要先安装 pdcurses 包, 参见 
+\begin{verbatim}
+https://pdcurses.org/
+\end{verbatim}
+如果在 Windows 下安装 pdcurses, 需要启动 
+\begin{lstlisting}[language=bash]
+WIDE=Y UTF8=Y
+\end{lstlisting}
+选项.
+
 \subsection{游戏基本流程}
 \label{s_intro}
 ftbt 是一款用 go 语言开发的回合制战棋游戏引擎, 是 20 世纪 90 年代颇为流行的游戏模式, 例如天使帝国, 三国英杰传等均属于该类型游戏. 
@@ -638,6 +666,7 @@ vmd * AI_MAX_TECH_SCORE / AI_MAX_TECH_DL_VMD
 
 \section{NCurses 前端操作说明}
 \label{s_nc}
+首先, 终端大小至少要 32 行, 164 列.
 程序运行开始会先显示关卡介绍的内容, 按任意键翻页, 显示完成后游戏开始.
 
 屏幕左上角区域显示地图信息, 向右为 $x$ 正方向, 向下为 $y$ 正方向. 

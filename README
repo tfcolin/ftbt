@@ -16,9 +16,14 @@ ftbt
 
 安装教程
 
+安装引擎
+
 git clone https://gitee.com/tfcolin/ftbt
 cd ftbt
 go build .
+
+安装基于 ncurses 的终端 UI 实现的可执行程序.
+
 cd ftbt_nc
 go build .
 cd ../ftbt_ai_nc
