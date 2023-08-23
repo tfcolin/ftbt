@@ -16,10 +16,7 @@ ftbt
 
 安装教程
 
-git clone https://gitee.com/tfcolin/ftbt
+git clone https://gitee.com/tfcolin/ftbt -b engine
 cd ftbt
 go build .
 
-如果想不依赖 ncurses, 可以使用如下 engine 分支. 该分支去掉了 UI.
-
-git clone https://gitee.com/tfcolin/ftbt -b engine

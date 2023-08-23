@@ -243,8 +243,70 @@ ftbt\_nc 为双人游戏, 即两方均由人工操作. 注意 AI 固定使用操
 ftbt_nc/ftbt_nc 规则文件 关卡文件 [关卡介绍文件]
 ftbt_nc_ai/ftbt_nc_ai 规则文件 关卡文件 [关卡介绍文件]
 \end{lstlisting}
-其中, 规则文件和关卡文件的详细描述可参见第 \ref{s_conf} 节. 前端的操作说明可参见第 \ref{s_nc} 节.
-关卡介绍文件包含关卡介绍的文本内容, 允许不提供.
+其中, 规则文件和关卡文件的详细描述可参见第 \ref{s_conf} 节. 关卡介绍文件包含关卡介绍的文本内容, 允许不提供.
+运行的终端要求至少包含 32 行, 164 列.
+目前的软件包中包含了测试用规则文件 star.tech 和测试用关卡文件 m1.map, m2.map, m3.map.
+例如可以通过
+\begin{lstlisting}[language=bash]
+ftbt_nc_ai/ftbt_nc_ai star.tech m2.map
+\end{lstlisting}
+来测试运行.
+
+程序运行开始会先显示关卡介绍的内容, 按任意键翻页, 显示完成后游戏开始.
+前端的界面如图 \ref{fui_1} 所示.
+\begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{ui_sel_p.png}
+      \caption{\label{fui_1}前端界面: 选择人物进行操作}
+\end{figure}
+屏幕左上角区域显示地图信息, 向右为 $x$ 正方向, 向下为 $y$ 正方向. 
+每个地图网格显示如图 \ref{f_grid} 所示的信息.
+\begin{figure}
+      \centering
+      \includegraphics[scale=1.2]{grid.pdf}
+      \caption{\label{f_grid}地图网格信息示意图}
+\end{figure}
+其中, DX 为地形的名称, 红色表示我方 (\lcode{opt = 0}), 蓝色表示敌方 (\lcode{opt = 1}).
+显示 P 表示有人位于此位置, 否则不显示. A 表示该位置存在攻击辅助效果.
+D 表示该位置存在防御辅助效果. F 表示该位置存在飞行辅助效果, 即移动量消耗值被修改.
+S 表示该位置存在远程攻击无效的辅助效果. 使用上下左右箭头键或类似 vim 中的 h(左), j(下), k(上), l(右) 键
+可以在地图上移动光标. 当地图大小超过可显示范围时, 可使用 w, b, d, u 分别向右, 左, 下, 上滚动半个屏幕. 
+使用 Ctrl-d, Ctrl-u 可达到使用 d, u 相同的效果. 屏幕右端的 XScroll, YScroll 部分
+显示了当前窗口在整个地图中的位置. 使用 Tab 键可以自动使光标移动到下一个本回合当前操作方还尚未行动的人物所在的位置.
+
+屏幕右侧会跟随光标的移动显示位置和人员信息. 最上一个窗口显示
+地形名称, 移动量消耗, 人物名称, 操作方 (OptA, OptB), 生命值, 本回合是否已行动完毕, 攻击力, 防御力, 移动速度 (每回合移动值).
+第二个窗口显示一个表格, 表示该位置的辅助效果. OptA, OptB 分别表示对两方的不同辅助效果. Value 表示效果值, Dur. 表示效果的剩余持续时间.
+第三个窗口显示坐落于该位置的人物所掌握的全部技术名称. 最下面一个窗口为操作提示.
+
+当操作提示选择一个人物或位置时, 首先移动光标到特定位置, 然后通过 Enter 键确定选择该位置或人物.
+当选择移动目的地或技术的目标位置时, 允许选择的区域会做特殊显示. 图 \ref{fui_2} 展示了选择移动目的地的情形.
+\begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{ui_sel_move.png}
+      \caption{\label{fui_2}前端界面: 选择人物的移动目的地}
+\end{figure}
+在选择移动目的地时, 按下 q 键可取消选择而退回上一步. 当出现 Select tech 的提示时, 输入数字键可选择待执行的技术,
+此时若键入 q, 则对该人物只做移动而不执行任何技术. 图 \ref{fui_3} 展示了选择待执行技术的情形.
+\begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{ui_sel_tech.png}
+      \caption{\label{fui_3}前端界面: 选择待执行技术}
+\end{figure}
+图 \ref{fui_4} 展示了选择技术目标位置的情形. 当 AI 执行选择操作人物或技术对象时, 
+\begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{ui_sel_tech_obj.png}
+      \caption{\label{fui_4}前端界面: 选择技术的执行目标位置}
+\end{figure}
+界面会给出提示, 此时按 c 键令 AI 继续工作. 图 \ref{fui_5} 展示了 AI 执行操作时的情形.
+\begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{ui_ai.png}
+      \caption{\label{fui_5}前端界面: AI 执行操作时的提示}
+\end{figure}
+在选择人物进行操作的状态下, 按下 t 可提前终止本方的本回合操作. 按下 q 可退出游戏.
+当操作提示出现 `?' 时, 按 y 表示确认, n 表示取消. 当对某个人物造成伤害时, 对应网格 P 字的位置会临时显示伤害值.
 
 \subsection{引擎使用}
 游戏引擎的设计模式允许对同样的游戏规则设计不同的用户界面(UI). UI 通过 go 语言的 \lcode{interface} 结构来定义,
@@ -663,38 +725,6 @@ vmd * AI_MAX_TECH_SCORE / AI_MAX_TECH_DL_VMD
             \end{enumerate}
 \end{enumerate}
 软件包中包含的 m1.map, m2.map, m3.map 均为与规则文件 star.tech 对应的关卡文件实例.
-
-\section{NCurses 前端操作说明}
-\label{s_nc}
-首先, 终端大小至少要 32 行, 164 列.
-程序运行开始会先显示关卡介绍的内容, 按任意键翻页, 显示完成后游戏开始.
-
-屏幕左上角区域显示地图信息, 向右为 $x$ 正方向, 向下为 $y$ 正方向. 
-每个地图网格显示如图 \ref{f_grid} 所示的信息.
-\begin{figure}
-      \centering
-      \includegraphics[scale=1.2]{grid.pdf}
-      \caption{\label{f_grid}地图网格信息示意图}
-\end{figure}
-其中, DX 为地形的名称, 红色表示我方 (\lcode{opt = 0}), 蓝色表示敌方 (\lcode{opt = 1}).
-显示 P 表示有人位于此位置, 否则不显示. A 表示该位置存在攻击辅助效果.
-D 表示该位置存在防御辅助效果. F 表示该位置存在飞行辅助效果, 即移动量消耗值被修改.
-S 表示该位置存在远程攻击无效的辅助效果. 使用上下左右箭头键或类似 vim 中的 h(左), j(下), k(上), l(右) 键
-可以在地图上移动光标. 当地图大小超过可显示范围时, 可使用 w, b, d, u 分别向右, 左, 下, 上滚动半个屏幕. 
-使用 Ctrl-d, Ctrl-u 可达到使用 d, u 相同的效果. 屏幕右端的 XScroll, YScroll 部分
-显示了当前窗口在整个地图中的位置. 使用 Tab 键可以自动使光标移动到下一个本回合当前操作方还尚未行动的人物所在的位置.
-
-屏幕右侧会跟随光标的移动显示位置和人员信息. 最上一个窗口显示
-地形名称, 移动量消耗, 人物名称, 操作方 (OptA, OptB), 生命值, 本回合是否已行动完毕, 攻击力, 防御力, 移动速度 (每回合移动值).
-第二个窗口显示一个表格, 表示该位置的辅助效果. OptA, OptB 分别表示对两方的不同辅助效果. Value 表示效果值, Dur. 表示效果的剩余持续时间.
-第三个窗口显示坐落于该位置的人物所掌握的全部技术名称. 最下面一个窗口为操作提示. 
-
-当操作提示选择一个人物或位置时, 首先移动光标到特定位置, 然后通过 Enter 键确定选择该位置或人物. 
-当选择移动目的地或技术的目标位置时, 允许选择的区域会做特殊显示. 在选择移动目的地时, 
-按下 q 键可取消选择而退回上一步. 当出现 Select tech 的提示时, 输入数字键可选择待执行的技术, 
-此时若键入 q, 则对该人物只做移动而不执行任何技术. 在选择人物进行操作的状态下, 
-按下 t 可提前终止本方的本回合操作. 按下 q 可退出游戏. 
-当操作提示出现 `?' 时, 按 y 表示确认, n 表示取消. 当对某个人物造成伤害时, 对应网格 P 字的位置会临时显示伤害值.
 
 \section{UI 接口定义}
 \label{s_ui}
