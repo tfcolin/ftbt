@@ -32,3 +32,7 @@ cd ..
 
 如果想不依赖 ncurses, 可以使用如下 engine 分支. 该分支去掉了 UI.
 git clone https://gitee.com/tfcolin/ftbt -b engine
+
+试验运行
+
+ftbt_ai_nc/ftbt_ai_nc star.tech m2.map m2.intro
