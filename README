@@ -37,5 +37,15 @@ git clone https://gitee.com/tfcolin/ftbt -b engine
 
 ftbt_ai_nc/ftbt_ai_nc star.tech m2.map m2.intro
 
+在 go 代码中 import 该库.
+
+import (
+    "gitee.com/tfcolin/ftbt"
+)
+
 使用 Archlinux 发行版的用户可直接通过 AUR 安装:
+
 软件包名称: ftbt
+文档安装到位置: /usr/share/doc/ftbt/ftbt.pdf
+可执行文件位置: /usr/bin/
+
