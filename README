@@ -36,3 +36,6 @@ git clone https://gitee.com/tfcolin/ftbt -b engine
 试验运行
 
 ftbt_ai_nc/ftbt_ai_nc star.tech m2.map m2.intro
+
+使用 Archlinux 发行版的用户可直接通过 AUR 安装:
+软件包名称: ftbt
